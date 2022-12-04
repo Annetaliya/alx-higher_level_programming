@@ -1,7 +1,8 @@
 #!/usr/bim/python3
 def new_in_list(my_list, idx, element):
-    if idx < 0 or idx > (len(my_list) - 1):
+    if idx < 0 or idx > len(my_list):
         return (my_list)
-    my_list2 = [x for x in my_list]
-    my_list2[idx] = element
-    return (my_list2)
+    else:
+        new_list = my_list.copy()
+        new_list[idx] = element
+        return (new_list)
