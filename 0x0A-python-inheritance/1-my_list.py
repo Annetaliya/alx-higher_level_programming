@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-""" Createing a subclass """
+"""This module inherits from the list class"""
 
 
 class MyList(list):
-    """A subclass that inherits properties of the parent """
-
+    """A class that inherits from list"""
     def print_sorted(self):
-        """A method that prints a sorted list"""
-
+        """prints a sorted list"""
         print(sorted(self))
