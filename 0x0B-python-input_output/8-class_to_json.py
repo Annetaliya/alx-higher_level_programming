@@ -7,5 +7,5 @@ def class_to_json(obj):
 
     my_dict = {}
     for key, value in obj.__dict__.items():
-        my_dict = value
+        my_dict[key] = value
     return my_dict
