@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import json
+import os
 """Class declaration """
 
 
@@ -20,9 +21,10 @@ class Base:
         """converts a dict to json string"""
         if list_dictionaries is None or list_dictionaries == []:
             return "[]"
-
-        else:
-            return json.dumps(list_dictionaries)
+        if (type(list_dictionaries) != list or not
+                all(type(i) == dict for i in list_dictionaries)):
+            raise TypeError("list_dictionaries must be a list of dictionaries")
+        return json.dumps(list_dictionaries)
 
     @classmethod
     def save_to_file(cls, list_objs):
@@ -38,10 +40,14 @@ class Base:
     @staticmethod
     def from_json_string(json_string):
         """returns a list from json string"""
-        if json_string is None or json_string == []:
-            return "[]"
-        else:
-            return json.loads(json_string)
+        json_string_list = []
+
+        if json_string is not None and json_string != '':
+            if type(json_string) != str:
+                raise TypeError("json_string must be a string")
+            json_string_list = json.loads(json_string)
+
+        return json_string_list
 
     @classmethod
     def create(cls, **dictionary):
@@ -53,3 +59,18 @@ class Base:
 
             dummy.update(**dictionary)
             return dummy
+
+    @classmethod
+    def load_from_file(cls):
+        """returns a list of instances from json file"""
+        file_name = cls.__name__ + ".json"
+        list_of_instances = []
+        list_dictionaries = []
+
+        if os.path.exists(file_name):
+            with open(file_name, 'r') as my_file:
+                my_str = my_file.read()
+                list_dictionaries = cls.from_json_string(my_str)
+                for dictionary in list_dictionaries:
+                    list_of_instances.append(cls.create(**dictionary))
+        return list_of_instances
