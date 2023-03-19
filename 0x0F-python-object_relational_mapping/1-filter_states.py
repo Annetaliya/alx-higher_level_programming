@@ -15,8 +15,8 @@ if __name__ == "__main__":
         )
     except MySQLdb.Error:
         print("error connecting")
-    cur = connection.cursor()
     try:
+        cur = connection.cursor()
         cur.execute("SELECT * FROM states WHERE name LIKE 'N%'\
                 ORDER BY states.id")
         rows = cur.fetchall()
