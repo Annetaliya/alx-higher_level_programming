@@ -1,23 +1,28 @@
 #!/usr/bin/python3
-""" a script that lists all states with a name starting with N"""
-
+""" selecting with mysqldb """
 import MySQLdb
 import sys
 
+
 if __name__ == "__main__":
-    mydb = MySQLdb.connect(
+    try:
+        connection = MySQLdb.connect(
             host="localhost",
             user=sys.argv[1],
-            password=sys.argv[2],
+            passwd=sys.argv[2],
             port=3306,
             db=sys.argv[3]
-            )
-
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM states WHERE name LIKE 'N%'\
-            ORDER BY states.id")
-    rows = mycursor.fetchall()
-    for row in rows:
-        print(row)
-    mycursor.close()
-    mydb.close()
+        )
+    except MySQLdb.Error:
+        print("error connecting")
+    cur = connection.cursor()
+    try:
+        cur.execute("SELECT * FROM states WHERE name LIKE 'N%'\
+                ORDER BY states.id")
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
+    except MySQLdb.Error:
+        print("execution failed")
+    cur.close()
+    connection.close()
