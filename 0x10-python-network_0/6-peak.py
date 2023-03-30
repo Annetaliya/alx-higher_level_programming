@@ -3,6 +3,12 @@
 
 
 def find_peak(list_of_integers):
+    '''
+    Args:
+        list_of_integers(int): list of integers to find peak of
+    Returns: peak of integers or none
+    '''
+
     size = len(list_of_integers)
     mid_e = size
     mid = size // 2
