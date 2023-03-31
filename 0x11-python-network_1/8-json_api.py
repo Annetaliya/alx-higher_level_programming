@@ -7,18 +7,16 @@ import sys
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
+    letter ="" if len(sys.argv) == 1 else sys.argv[1]
+    payload = {'q': letter}
         q = sys.argv[1]
-    else:
-        q = ""
-        payload = {'q': q}
     response = requests.post('http://0.0.0.0:5000/search_user', data=payload)
     try:
         json_response = response.json()
-        if json_response:
-            print('[{}] {}'.format(json_response['id'], json_reponse['name']))
-        else:
+        if json_response == {}:
             print('No result')
+        else:
+            print('[{}] {}'.format(json_response.get('id'), json_reponse.get('name')))
 
     except ValueError:
         print('Not a valid JSON')
